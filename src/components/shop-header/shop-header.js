@@ -1,18 +1,9 @@
-import React from "react";
-import "./shop-header.css";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import {
-  bookAddedToCart,
-  bookRemovedFromCart,
-  allBooksRemovedFromCart,
-} from "../../actions";
+import React from 'react';
+import './shop-header.css';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-const ShopHeader = ({ items, total }) => {
-  let countItem = 0;
-  items.forEach((element) => {
-    countItem += element.count;
-  });
+const ShopHeader = ({ count, total }) => {
   return (
     <header className="shop-header">
       <Link to="/" className="logo text-dark">
@@ -22,24 +13,18 @@ const ShopHeader = ({ items, total }) => {
       <div className="shopping-cart">
         <Link to="/cart" className="link">
           <i className="cart-icon fa-solid fa-cart-shopping" />
-          {countItem} items (${total})
+          {count} items (${total})
         </Link>
       </div>
     </header>
   );
 };
 
-const mapStateToProps = ({ cartItems, orderTotal }) => {
+const mapStateToProps = ({ count, orderTotal }) => {
   return {
-    items: cartItems,
+    count: count,
     total: orderTotal,
   };
 };
 
-const mapDispatchToProps = {
-  onIncrease: bookAddedToCart,
-  onDecrease: bookRemovedFromCart,
-  onDelete: allBooksRemovedFromCart,
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(ShopHeader);
+export default connect(mapStateToProps)(ShopHeader);

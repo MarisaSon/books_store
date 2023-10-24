@@ -2,8 +2,12 @@ const initialState = {
   books: [],
   cartItems: [],
   orderTotal: 0,
+  count: 0,
 };
 
+/**
+ * Обновляет список товаров в корзине.
+ */
 const updateCartItems = (cartItems, item, idx) => {
   if (item.count === 0) {
     return [...cartItems.slice(0, idx), ...cartItems.slice(idx + 1)];
@@ -15,6 +19,9 @@ const updateCartItems = (cartItems, item, idx) => {
   return [...cartItems.slice(0, idx), item, ...cartItems.slice(idx + 1)];
 };
 
+/**
+ * Обновляет информацию о товаре в корзине.
+ */
 const updateCartItem = (book, item = {}, quantity) => {
   const { id = book.id, count = 0, title = book.title, total = 0 } = item;
 
@@ -26,6 +33,9 @@ const updateCartItem = (book, item = {}, quantity) => {
   };
 };
 
+/**
+ * Обновляет информацию о заказе.
+ */
 const updateOrder = (state, bookId, quantity) => {
   const { books, cartItems } = state;
 
@@ -36,28 +46,34 @@ const updateOrder = (state, bookId, quantity) => {
   const newItem = updateCartItem(book, item, quantity);
   const updatedCartItems = updateCartItems(cartItems, newItem, itemIndex);
   let orderTotal = 0;
-  updatedCartItems.forEach((item) => (orderTotal += item.total));
+  let count = 0;
+  updatedCartItems.forEach((item) => {
+    count += item.count;
+    orderTotal += item.total;
+  });
+
   return {
     ...state,
     cartItems: updatedCartItems,
     orderTotal: orderTotal,
+    count: count,
   };
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case "BOOKS_LOADED":
+    case 'BOOKS_LOADED':
       return {
         ...state,
         books: action.payload,
       };
-    case "BOOK_ADDED_TO_CART":
+    case 'BOOK_ADDED_TO_CART':
       return updateOrder(state, action.payload, 1);
 
-    case "BOOK_REMOVED_FROM_CART":
+    case 'BOOK_REMOVED_FROM_CART':
       return updateOrder(state, action.payload, -1);
 
-    case "ALL_BOOKS_REMOVED_FROM_CART":
+    case 'ALL_BOOKS_REMOVED_FROM_CART':
       const item = state.cartItems.find(({ id }) => id === action.payload);
       return updateOrder(state, action.payload, -item.count);
 

@@ -1,21 +1,12 @@
-import React from "react";
-import "./shopping-cart-table.css";
-import { connect } from "react-redux";
-import {
-  bookAddedToCart,
-  bookRemovedFromCart,
-  allBooksRemovedFromCart,
-} from "../../actions";
+import React from 'react';
+import './shopping-cart-table.css';
+import { connect } from 'react-redux';
+import { bookAddedToCart, bookRemovedFromCart, allBooksRemovedFromCart } from '../../actions';
 
-const ShoppingCartTable = ({
-  items,
-  total,
-  onIncrease,
-  onDecrease,
-  onDelete,
-}) => {
+const ShoppingCartTable = ({ items, total, totalCount, onIncrease, onDecrease, onDelete }) => {
   const renderRow = (item, idx) => {
     const { id, title, count, total } = item;
+
     return (
       <tr key={id}>
         <td>{idx + 1}</td>
@@ -45,6 +36,7 @@ const ShoppingCartTable = ({
       </tr>
     );
   };
+
   return (
     <div className="shopping-cart-table">
       <h2>Your order</h2>
@@ -61,15 +53,19 @@ const ShoppingCartTable = ({
 
         <tbody>{items.map(renderRow)}</tbody>
       </table>
-      <div className="total">Total: ${total}</div>
+
+      <div className="total">
+        {totalCount} items, total: ${total}
+      </div>
     </div>
   );
 };
 
-const mapStateToProps = ({ cartItems, orderTotal }) => {
+const mapStateToProps = ({ cartItems, orderTotal, count }) => {
   return {
     items: cartItems,
     total: orderTotal,
+    totalCount: count,
   };
 };
 

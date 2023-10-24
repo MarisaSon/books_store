@@ -1,13 +1,10 @@
-import React from "react";
-import BookList from "../book-list/book-list";
+import React from 'react';
+import BookList from '../book-list/book-list';
 
-
-const HomePage = () => {
-  return (
-    <div>
-      <BookList />;
-    </div>
-  );
-};
+const HomePage = () => (
+  <div>
+    <BookList />
+  </div>
+);
 
 export default HomePage;

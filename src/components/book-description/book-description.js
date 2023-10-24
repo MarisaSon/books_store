@@ -1,9 +1,10 @@
-import React from "react";
-import "./book-description.css";
-import { Link } from "react-router-dom";
+import React from 'react';
+import './book-description.css';
+import { Link } from 'react-router-dom';
 
 const BookDescription = ({ book, onAddedToCart }) => {
   const { title, author, price, coverImage, id, description } = book;
+
   return (
     <div className="book-description">
       <div className="cover">
@@ -11,7 +12,6 @@ const BookDescription = ({ book, onAddedToCart }) => {
       </div>
       <div className="details">
         <Link to={'/books/' + id} className="title">
-          {" "}
           {title}
         </Link>
 
